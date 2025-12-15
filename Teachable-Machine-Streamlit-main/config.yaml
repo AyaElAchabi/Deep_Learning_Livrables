@@ -1,0 +1,64 @@
+# Configuration par défaut pour Teachable Machine Streamlit
+app:
+  title: "Teachable Machine Streamlit"
+  debug: false
+  seed: 42
+  language: "fr"
+
+data:
+  image_size: [224, 224]
+  channels: 3
+  batch_size: 32
+  validation_split: 0.2
+  test_split: 0.1
+  shuffle: true
+  normalization: "imagenet"  # "imagenet" ou "0-1"
+  
+augmentation:
+  enabled: true
+  horizontal_flip: true
+  vertical_flip: false
+  rotation_range: 15
+  width_shift_range: 0.1
+  height_shift_range: 0.1
+  zoom_range: 0.1
+  brightness_range: [0.9, 1.1]
+  cutout_prob: 0.0
+  mixup_alpha: 0.0
+  cutmix_alpha: 0.0
+
+training:
+  epochs: 50
+  learning_rate: 0.001
+  optimizer: "adam"
+  early_stopping:
+    patience: 10
+    monitor: "val_loss"
+    restore_best_weights: true
+  reduce_lr:
+    factor: 0.5
+    patience: 5
+    min_lr: 1e-7
+  
+model:
+  backbone: "MobileNetV3Small"  # MobileNetV3Small, MobileNetV3Large, EfficientNetB0, ResNet50
+  pretrained: true
+  trainable_layers: 20  # -1 pour tout, 0 pour rien, >0 pour les N dernières couches
+  dropout: 0.2
+  
+classification:
+  loss: "sparse_categorical_crossentropy"
+  metrics: ["accuracy"]
+  
+regression:
+  loss: "mse"
+  metrics: ["mae", "mse"]
+
+paths:
+  artifacts: "artifacts"
+  logs: "logs"
+  cache: ".cache"
+
+device:
+  use_gpu: true
+  memory_growth: true
